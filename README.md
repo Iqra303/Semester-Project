@@ -14,3 +14,12 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+In this project, we are deploying Grill Craft Restaurant App in which
+customer orders are managing and Food Managing with CRUD operations.
+
+Creating Better interface for food ordering System.
+Creating new customers, Food Stocks, customer contacts.
+Inserting new customers, Food Stocks, customer contacts.
+Modifying new customers, Food Stocks, customer contacts.
+Deleting new customers, Food Stocks, customer contacts.
