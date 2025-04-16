@@ -8,26 +8,37 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_sparkle/flutter_sparkle.dart';
 import 'dart:math';// Add this import
 import 'package:flutter/scheduler.dart';
+import 'firebase_options.dart';
 /*------------Database-----------*/
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: FirebaseOptions(
-        apiKey: "AIzaSyCjlKdGkncXHlkcvI75myKJC2IzQusSBvw",
-        authDomain: "forknknives-2a317.firebaseapp.com",
-        projectId: "forknknives-2a317",
-        storageBucket: "forknknives-2a317.appspot.com",
-        messagingSenderId: "455650914855",
-        appId: "1:455650914855:web:4dfbd994e26dd0a4771402",
-        measurementId: "G-C20P0EBKE2",
-      ),
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
+
+  // Initialize Firebase with the generated config
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,  // This connects the app to Firebase
+  );
+
   runApp(Menus());
 }
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   if (kIsWeb) {
+//     await Firebase.initializeApp(
+//       options: FirebaseOptions(
+//         apiKey: "AIzaSyCjlKdGkncXHlkcvI75myKJC2IzQusSBvw",
+//         authDomain: "forknknives-2a317.firebaseapp.com",
+//         projectId: "forknknives-2a317",
+//         storageBucket: "forknknives-2a317.appspot.com",
+//         messagingSenderId: "455650914855",
+//         appId: "1:455650914855:web:4dfbd994e26dd0a4771402",
+//         measurementId: "G-C20P0EBKE2",
+//       ),
+//     );
+//   } else {
+//     await Firebase.initializeApp();
+//   }
+//   runApp(Menus());
+// }
 
 class Menus extends StatelessWidget {
   @override
