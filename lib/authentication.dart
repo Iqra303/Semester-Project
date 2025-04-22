@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rms/menu.dart';
 import 'firebase_options.dart';
-
+import 'package:rms/MapAddress.dart';
 class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,26 +27,6 @@ void main() async {
 
   runApp(MyApp2());
 }
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   if (kIsWeb) {
-//     await Firebase.initializeApp(
-//       options: FirebaseOptions(
-//         apiKey: "AIzaSyCjlKdGkncXHlkcvI75myKJC2IzQusSBvw",
-//         authDomain: "forknknives-2a317.firebaseapp.com",
-//         projectId: "forknknives-2a317",
-//         storageBucket: "forknknives-2a317.appspot.com",
-//         messagingSenderId: "455650914855",
-//         appId: "1:455650914855:web:4dfbd994e26dd0a4771402",
-//         measurementId: "G-C20P0EBKE2",
-//       ),
-//     );
-//   } else {
-//     await Firebase.initializeApp();
-//   }
-//   runApp(MyApp2());
-// }
-
 class Signup extends StatefulWidget {
   @override
   _SignupState createState() => _SignupState();
@@ -93,7 +73,7 @@ class _SignupState extends State<Signup> {
 
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Menus()));
+            MaterialPageRoute(builder: (context) => GoogleMapEmbedPage()));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Errors: $e"),
@@ -102,7 +82,36 @@ class _SignupState extends State<Signup> {
       }
     }
   }
-
+  // Future<void> _registerUser() async {
+  //   setState(() => _isLoading = true);
+  //   try {
+  //     final cred = await _auth.createUserWithEmailAndPassword(
+  //       email: _email.text.trim(),
+  //       password: _password.text.trim(),
+  //     );
+  //     await _firestore.collection('users').doc(cred.user!.uid).set({
+  //       'email': _email.text.trim(),
+  //       'username': _username.text.trim(),
+  //       'phone': _phone.text.trim(),
+  //     });
+  //
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Account created successfully!'), backgroundColor: Colors.green)
+  //     );
+  //     await Future.delayed(Duration(seconds: 2));
+  //
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => GoogleMapEmbedPage()),
+  //     );
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red)
+  //     );
+  //   } finally {
+  //     setState(() => _isLoading = false);
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,7 +243,7 @@ class _LoginState extends State<Login> {
 
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Menus()));
+            MaterialPageRoute(builder: (context) => GoogleMapEmbedPage()));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Login failed: $e"),
@@ -248,6 +257,30 @@ class _LoginState extends State<Login> {
     }
     }
   }
+  // Future<void> _loginUser() async {
+  //   setState(() => _isLoading = true);
+  //   try {
+  //     final cred = await _auth.signInWithEmailAndPassword(
+  //       email: _email.text.trim(),
+  //       password: _password.text.trim(),
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Login successful!'), backgroundColor: Colors.green)
+  //     );
+  //     await Future.delayed(Duration(seconds: 2));
+  //
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => GoogleMapEmbedPage()),
+  //     );
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Login failed: $e'), backgroundColor: Colors.red)
+  //     );
+  //   } finally {
+  //     setState(() => _isLoading = false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +320,7 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 20),
 
                   ElevatedButton(
-                    onPressed: _loginUser,
+                    onPressed:_loginUser,
                     child: Text("Login"),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
                   ),

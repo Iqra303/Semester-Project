@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'splash.dart'; // Splash Screen
 import 'package:flutter_animate/flutter_animate.dart';
 import 'authentication.dart';
+import 'MapAddress.dart';
 void main() {
   runApp(Forkknives());
 }
@@ -126,7 +127,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.red,
                   // Text color
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 22),
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16),
                   // Padding
                   side: BorderSide(color: Colors.red,
                       width: 2), // Outline border color set to red
@@ -139,102 +140,209 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     );
   }
 }
-class slider extends StatefulWidget{
+
+class slider extends StatefulWidget {
   const slider({super.key});
-  State<slider> createState()=>_slider();
+  State<slider> createState() => _slider();
 }
-class _slider extends State<slider>{
-     @override
-  Widget build(BuildContext context){
-       return Scaffold(
-         backgroundColor: Colors.orange,
-         body: SingleChildScrollView(
-           child: Center(
-             child: Column(
-               children: [
-                 Container(
-                   decoration: BoxDecoration(
-                     boxShadow: [
-                       BoxShadow(
-                         color: Colors.black.withOpacity(0.3),
-                         blurRadius: 10,
-                         spreadRadius: 2,
-                         offset: Offset(0, 4),
-                       ),
-                     ],
-                     borderRadius: BorderRadius.only(
-                       bottomLeft: Radius.circular(34),
-                       bottomRight: Radius.circular(34),
-                     ),
-                   ),
 
-                   child:
-                   ClipRRect(
-                     borderRadius: BorderRadius.only(
-                       bottomLeft: Radius.circular(34),
-                       bottomRight: Radius.circular(34),
-                     ),
-                     child: Image.asset(
-                       "images/img_4.png",
-                       width: 450,
-                       height: 450,
-                       fit: BoxFit.cover,
-                     ),
-                   ),
-                 ),
-                 SizedBox(height: 35),
-                 Container(
-                   padding: EdgeInsets.all(16),
-                   decoration: BoxDecoration(
-                    // color: Colors.black.withOpacity(0.6),
-                     borderRadius: BorderRadius.circular(12),
-                   ),
-                   child: Text(
-                     "Food is not just fuel it’s information that talks to your DNA\n"
-                         "and tells it what to do. People who love to eat are always\n"
-                         "the best people because good food is the foundation of\n"
-                         "genuine happiness. Cooking is an art.",
-                     textAlign: TextAlign.center,
-                     style: TextStyle(
-                       color: Colors.white,
-                       fontSize: 18,
-                       fontWeight: FontWeight.bold,
-                     ),
-                   ),
-                 ),
-                 SizedBox(height: 140),
-                 ElevatedButton(
-                   onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>slider2()));
-                   },
-                   child: Text(
-                     "Next",
-                     style: TextStyle(
-                       fontSize: 19,
+class _slider extends State<slider> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _opacity = 0.0;
 
-                     ),
-                   ),
-                   style: ElevatedButton.styleFrom(
-                     backgroundColor: Colors.red,
-                     foregroundColor: Colors.white,
-                     // Text color
-                     padding: EdgeInsets.symmetric(horizontal: 150, vertical: 18),
-                     // Padding
-                     side: BorderSide(color: Colors.red,
-                         width: 2), // Outline border color set to red
-                   ),
-                 ),
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
 
-               ],
-                 )
+    // Start fade-in after slight delay
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+      _controller.forward();
+    });
+  }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
-             ),
-           ),
-         );
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.orange,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: _opacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top Image with rounded bottom and shadow
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      "images/img_4.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
 
-     }
+                SizedBox(height: 60),
+
+                // Inspiring food quote
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "“Food is not just fuel—it’s information that talks to your DNA and tells it what to do.”\n\n"
+                        "People who love to eat are always the best people, because good food is the foundation of genuine happiness.\n\nCooking is an art.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 40),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => slider2()),
+                    );
+                  },
+                  child: Text("Next", style: TextStyle(fontSize: 18)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 4,
+                  ),
+                ),
+
+                SizedBox(height: 30),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.orange,
+//       body: SingleChildScrollView(
+//         child: Center(
+//           child: AnimatedOpacity(
+//             duration: Duration(seconds: 2),
+//             opacity: _opacity,
+//             child: Column(
+//               children: [
+//                 Container(
+//                   decoration: BoxDecoration(
+//                     boxShadow: [
+//                       BoxShadow(
+//                         color: Colors.black.withOpacity(0.3),
+//                         blurRadius: 10,
+//                         spreadRadius: 2,
+//                         offset: Offset(0, 4),
+//                       ),
+//                     ],
+//                     borderRadius: BorderRadius.only(
+//                       bottomLeft: Radius.circular(34),
+//                       bottomRight: Radius.circular(34),
+//                     ),
+//                   ),
+//                   child: ClipRRect(
+//                     borderRadius: BorderRadius.only(
+//                       bottomLeft: Radius.circular(34),
+//                       bottomRight: Radius.circular(34),
+//                     ),
+//                     child: Image.asset(
+//                       "images/img_4.png",
+//                       width: double.infinity,
+//                       height: 350,
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                 ),
+//
+//                 SizedBox(height: 140,),
+//                 Container(
+//                   padding: EdgeInsets.all(16),
+//                   child: Text(
+//                     "Food is not just fuel it’s information that talks to your DNA\n"
+//                         "and tells it what to do. People who love to eat are always\n"
+//                         "the best people because good food is the foundation of\n"
+//                         "genuine happiness. Cooking is an art.",
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     Navigator.push(context, MaterialPageRoute(builder: (context) => slider2()));
+//                   },
+//                   child: Text("Next", style: TextStyle(fontSize: 19)),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.red,
+//                     foregroundColor: Colors.white,
+//                     padding: EdgeInsets.symmetric(horizontal: 140, vertical: 14),
+//                     side: BorderSide(color: Colors.red, width: 2),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 
 class slider2 extends StatefulWidget {
   const slider2({super.key});
@@ -243,87 +351,196 @@ class slider2 extends StatefulWidget {
   _slider2State createState() => _slider2State();
 }
 
-class _slider2State extends State<slider2> {
+class _slider2State extends State<slider2> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _opacity = 0.0;
+
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.orange,
+//       body: SingleChildScrollView(
+//         child: Center(
+//           child: AnimatedOpacity(
+//             duration: Duration(seconds: 2),
+//             opacity: _opacity,
+//             child: Column(
+//               children: [
+//                 Container(
+//                   decoration: BoxDecoration(
+//                     boxShadow: [
+//                       BoxShadow(
+//                         color: Colors.black.withOpacity(0.3),
+//                         blurRadius: 10,
+//                         spreadRadius: 2,
+//                         offset: Offset(0, 4),
+//                       ),
+//                     ],
+//                     borderRadius: BorderRadius.only(
+//                       bottomLeft: Radius.circular(34),
+//                       bottomRight: Radius.circular(34),
+//                     ),
+//                   ),
+//                   child: ClipRRect(
+//                     borderRadius: BorderRadius.only(
+//                       bottomLeft: Radius.circular(34),
+//                       bottomRight: Radius.circular(34),
+//                     ),
+//                     child: Image.asset(
+//                       "images/img_5.png",
+//                       width: 450,
+//                       height: 350,
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                 ),
+//                 Container(
+//                   padding: EdgeInsets.all(16),
+//                   child: Text(
+//                     "Ramadan is the month of blessings,\n"
+//                         "A time for reflection and prayer.\n"
+//                         "Fasting fills the heart with gratitude,\n"
+//                         "And iftar brings loved ones together.\n"
+//                         "May your table be full of joy and peace,\n"
+//                         "And your soul be nourished with faith.",
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(builder: (context) => slider3()),
+//                     );
+//                   },
+//                   child: Text("Next", style: TextStyle(fontSize: 19)),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.red,
+//                     foregroundColor: Colors.white,
+//                     padding: EdgeInsets.symmetric(horizontal: 140, vertical: 14),
+//                     side: BorderSide(color: Colors.red, width: 2),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orange,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                      offset: Offset(0, 4),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: _opacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top Image with rounded bottom and shadow
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
-                  ],
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      "images/img_5.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
 
-                child:
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
-                  ),
-                  child: Image.asset(
-                    "images/img_5.png",
-                    width: 450,
-                    height: 450,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 35),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                 // color: Colors.black.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  "Ramadan is the month of blessings,\n"
-                      "A time for reflection and prayer.\n"
-                      "Fasting fills the heart with gratitude,\n"
-                      "And iftar brings loved ones together.\n"
-                      "May your table be full of joy and peace,\n"
-                      "And your soul be nourished with faith.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                SizedBox(height: 60),
+
+                // Inspiring food quote
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "“Food is not just fuel—it’s information that talks to your DNA and tells it what to do.”\n\n"
+                        "People who love to eat are always the best people, because good food is the foundation of genuine happiness.\n\nCooking is an art.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 170),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => slider3()),
-                  );
-                },
-                child: Text(
-                  "Next",
-                  style: TextStyle(fontSize: 19),
+
+                SizedBox(height: 40),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => slider3()),
+                    );
+                  },
+                  child: Text("Next", style: TextStyle(fontSize: 18)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 4,
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 150, vertical: 18),
-                  side: BorderSide(color: Colors.red, width: 2),
-                ),
-              ),
-            ],
+
+                SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
@@ -331,275 +548,554 @@ class _slider2State extends State<slider2> {
   }
 }
 
-class slider3 extends StatefulWidget {
+
+  class slider3 extends StatefulWidget {
   const slider3({super.key});
 
   @override
   _slider3State createState() => _slider3State();
 }
 
-class _slider3State extends State<slider3> {
+class _slider3State extends State<slider3> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _opacity = 0.0;
+
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.orange,
+//       body: SingleChildScrollView(
+//         child: Center(
+//         child: AnimatedOpacity(
+//         duration: Duration(seconds: 2),
+//     opacity: _opacity,
+//           child: Column(
+//             children: [
+//               Container(
+//                 decoration: BoxDecoration(
+//                   boxShadow: [
+//                     BoxShadow(
+//                       color: Colors.black.withOpacity(0.3),
+//                       blurRadius: 10,
+//                       spreadRadius: 2,
+//                       offset: Offset(0, 4),
+//                     ),
+//                   ],
+//                   borderRadius: BorderRadius.only(
+//                     bottomLeft: Radius.circular(34),
+//                     bottomRight: Radius.circular(34),
+//                   ),
+//                 ),
+//
+//                 child:
+//                 ClipRRect(
+//                   borderRadius: BorderRadius.only(
+//                     bottomLeft: Radius.circular(34),
+//                     bottomRight: Radius.circular(34),
+//                   ),
+//                   child: Image.asset(
+//                     "images/img_6.png",
+//                     width: 450,
+//                     height: 350,
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//               ),
+//
+//               Container(
+//                 padding: EdgeInsets.all(16),
+//                 decoration: BoxDecoration(
+//                   //color: Colors.black.withOpacity(0.6),
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//                 child: Text(
+//                   " Pizza is not just food its a feeling A slice of happiness in every bite Cheesy dreams and \n crispy delights Bringing friends and family together Life’s too short \n for bad pizza So grab a slice \n and enjoy the moment! \n enjoy the dishes!",
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//
+//               ElevatedButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => slider4()),
+//                   );
+//                 },
+//                 child: Text(
+//                   "Next",
+//                   style: TextStyle(fontSize: 19),
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.red,
+//                   foregroundColor: Colors.white,
+//                   padding: EdgeInsets.symmetric(horizontal: 140, vertical: 14),
+//                   side: BorderSide(color: Colors.red, width: 2),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         ),
+//       ),
+//     );
+//   }
+// }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orange,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                      offset: Offset(0, 4),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: _opacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top Image with rounded bottom and shadow
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
-                  ],
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      "images/img_6.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
 
-                child:
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
-                  ),
-                  child: Image.asset(
-                    "images/img_6.png",
-                    width: 450,
-                    height: 450,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 35),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  //color: Colors.black.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  " Pizza is not just food its a feeling A slice of happiness in every bite Cheesy dreams and \n crispy delights Bringing friends and family together Life’s too short \n for bad pizza So grab a slice and enjoy the moment",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                SizedBox(height: 60),
+
+                // Inspiring food quote
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "“Food is not just fuel—it’s information that talks to your DNA and tells it what to do.”\n\n"
+                        "People who love to eat are always the best people, because good food is the foundation of genuine happiness.\n\nCooking is an art.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 170),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => slider4()),
-                  );
-                },
-                child: Text(
-                  "Next",
-                  style: TextStyle(fontSize: 19),
+
+                SizedBox(height: 40),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => slider4()),
+                    );
+                  },
+                  child: Text("Next", style: TextStyle(fontSize: 18)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 4,
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 150, vertical: 18),
-                  side: BorderSide(color: Colors.red, width: 2),
-                ),
-              ),
-            ],
+
+                SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-class slider4 extends StatefulWidget {
+  class slider4 extends StatefulWidget {
   const slider4({super.key});
 
   @override
   _slider4State createState() => _slider4State();
 }
 
-class _slider4State extends State<slider4> {
+class _slider4State extends State<slider4> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _opacity = 0.0;
+
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+//
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orange,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                      offset: Offset(0, 4),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: _opacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top Image with rounded bottom and shadow
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
-                  ],
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      "images/img_7.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
 
-                child:
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(34),
-                    bottomRight: Radius.circular(34),
-                  ),
-                  child: Image.asset(
-                    "images/img_7.png",
-                    width: 450,
-                    height: 450,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 35),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                 // color: Colors.black.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  " Food is not just a necessity; it is an experience that brings people together, \n creating moments of joy and connection. As the saying goes Food is the ingredient that binds us \n  together reminding us that shared meals strengthen bonds and create lasting memories. ",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                SizedBox(height: 60),
+
+                // Inspiring food quote
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "“Food is not just fuel—it’s information that talks to your DNA and tells it what to do.”\n\n"
+                        "People who love to eat are always the best people, because good food is the foundation of genuine happiness.\n\nCooking is an art.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 115),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Slider5()),
-                  );
-                },
-                child: Text(
-                  "Next",
-                  style: TextStyle(fontSize: 19),
+
+                SizedBox(height: 40),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Slider5()),
+                    );
+                  },
+                  child: Text("Next", style: TextStyle(fontSize: 18)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 4,
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 150, vertical: 18),
-                  side: BorderSide(color: Colors.red, width: 2),
-                ),
-              ),
-            ],
+
+                SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-class Slider5 extends StatefulWidget {
+
+  class Slider5 extends StatefulWidget {
   const Slider5({super.key});
 
   @override
   _Slider5State createState() => _Slider5State();
 }
 
-class _Slider5State extends State<Slider5> {
+class _Slider5State extends State<Slider5> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _opacity = 0.0;
+
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.orange,
+//       body: SingleChildScrollView(
+//         child: Center(
+//         child: AnimatedOpacity(
+//         duration: Duration(seconds: 2),
+//     opacity: _opacity,
+//           child: Column(
+//             children: [
+//               Container(
+//                 decoration: BoxDecoration(
+//           boxShadow: [
+//               BoxShadow(
+//               color: Colors.black.withOpacity(0.3),
+//           blurRadius: 10,
+//           spreadRadius: 2,
+//           offset: Offset(0, 4),
+//         ),
+//           ],
+//       borderRadius: BorderRadius.only(
+//       bottomLeft: Radius.circular(34),
+//       bottomRight: Radius.circular(34),
+//     ),
+//     ),
+//
+//           child:
+//               ClipRRect(
+//                 borderRadius: BorderRadius.only(
+//                   bottomLeft: Radius.circular(34),
+//                   bottomRight: Radius.circular(34),
+//                 ),
+//                 child: Image.asset(
+//                   "images/img_8.png",
+//                   width: 450,
+//                   height: 350,
+//                   fit: BoxFit.cover,
+//                 ),
+//               ),
+//               ),
+//
+//               Container(
+//                 padding: EdgeInsets.all(16),
+//                 decoration: BoxDecoration(
+//                   //color: Colors.black.withOpacity(0.6),
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//                 child: Text(
+//                   "  Whether it’s a home-cooked dish or a feast with friends,\n  every bite tells a story of love \n Good food is the foundation of genuine happiness emphasizing that the \n flavors we savor bring warmth to our hearts.",
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//
+//
+//               ElevatedButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => GoogleMapEmbedPage()),
+//                   );
+//                 },
+//                 child: Text(
+//                   "Next",
+//                   style: TextStyle(fontSize: 19),
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.red,
+//                   foregroundColor: Colors.white,
+//                   padding: EdgeInsets.symmetric(horizontal: 140, vertical: 14),
+//                   side: BorderSide(color: Colors.red, width: 2),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//       ),
+//     );
+//   }
+// }
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orange,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-          boxShadow: [
-              BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-          blurRadius: 10,
-          spreadRadius: 2,
-          offset: Offset(0, 4),
-        ),
-          ],
-      borderRadius: BorderRadius.only(
-      bottomLeft: Radius.circular(34),
-      bottomRight: Radius.circular(34),
-    ),
-    ),
-
-          child:
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(34),
-                  bottomRight: Radius.circular(34),
-                ),
-                child: Image.asset(
-                  "images/img_8.png",
-                  width: 450,
-                  height: 450,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              ),
-              SizedBox(height: 35),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  //color: Colors.black.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  "  Whether it’s a home-cooked dish or a feast with friends,\n  every bite tells a story of love and culture. Another beautiful thought is, \n Good food is the foundation of genuine happiness emphasizing that the \n flavors we savor bring warmth to our hearts and nourishment to our souls.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 2),
+            opacity: _opacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top Image with rounded bottom and shadow
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      "images/img_8.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 115),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Register()),
-                  );
-                },
-                child: Text(
-                  "Next",
-                  style: TextStyle(fontSize: 19),
+                SizedBox(height: 60),
+
+                // Inspiring food quote
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    "“Food is not just fuel—it’s information that talks to your DNA and tells it what to do.”\n\n"
+                        "People who love to eat are always the best people, because good food is the foundation of genuine happiness.\n\nCooking is an art.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 150, vertical: 18),
-                  side: BorderSide(color: Colors.red, width: 2),
+
+                SizedBox(height: 40),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Register()),
+                    );
+                  },
+                  child: Text("Next", style: TextStyle(fontSize: 18)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 4,
+                  ),
                 ),
-              ),
-            ],
+
+                SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
+// /*-----------------google Map to find user address for DELIVERY---------------*/
 
 class Register extends StatelessWidget {
   @override
@@ -694,6 +1190,7 @@ class Register extends StatelessWidget {
     );
   }
 }
+
 
 // //sign up form to register
 //

@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_sparkle/flutter_sparkle.dart';
 import 'dart:math';// Add this import
 import 'package:flutter/scheduler.dart';
 import 'firebase_options.dart';
+import 'splash.dart';
+import 'Adminpanel.dart';
+import 'package:rms/MapAddress.dart';
 /*------------Database-----------*/
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,25 +24,8 @@ void main() async {
 
   runApp(Menus());
 }
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   if (kIsWeb) {
-//     await Firebase.initializeApp(
-//       options: FirebaseOptions(
-//         apiKey: "AIzaSyCjlKdGkncXHlkcvI75myKJC2IzQusSBvw",
-//         authDomain: "forknknives-2a317.firebaseapp.com",
-//         projectId: "forknknives-2a317",
-//         storageBucket: "forknknives-2a317.appspot.com",
-//         messagingSenderId: "455650914855",
-//         appId: "1:455650914855:web:4dfbd994e26dd0a4771402",
-//         measurementId: "G-C20P0EBKE2",
-//       ),
-//     );
-//   } else {
-//     await Firebase.initializeApp();
-//   }
-//   runApp(Menus());
-// }
+
+
 
 class Menus extends StatelessWidget {
   @override
@@ -49,6 +36,10 @@ class Menus extends StatelessWidget {
     );
   }
 }
+
+TextEditingController searchController = TextEditingController();
+String searchQuery = '';
+
 
 
 class Menu extends StatefulWidget {
@@ -94,6 +85,38 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+
+        child: ListView(
+
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.orange),
+              child: Image.asset("images/img_2-removebg-preview.png",width: 130,height: 130,)
+            ),
+
+
+            TextButton(onPressed: (){
+              Navigator.push(
+                context,MaterialPageRoute(builder: (context)=>AdminPanel())
+              );
+            }, child:  Text("Admin Panel",textAlign:TextAlign.left,style:TextStyle(color:Colors.red,fontSize: 18)),style:
+            TextButton.styleFrom(
+                backgroundColor: Colors.orange[100]
+            ),),
+            SizedBox(height:14),
+            TextButton(onPressed: (){
+              Navigator.push(
+                  context , MaterialPageRoute(builder: (context)=>SplashScreen())
+              );
+            }, child:  Text("Log out",textAlign:TextAlign.left,style:TextStyle(color:Colors.red,fontSize: 18)),style:
+            TextButton.styleFrom(
+                backgroundColor: Colors.orange[100]
+            ),),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -117,18 +140,36 @@ class _MenuState extends State<Menu> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(onPressed: (){}, child: Icon(Icons.menu,size: 26,color: Colors.white,)),
+                      // TextButton(onPressed: (){
+                      //   Scaffold.of(context).openDrawer();
+                      // }, child: Icon(Icons.menu,size: 26,color: Colors.white,)),
+                      Builder(
+                        builder: (context) => TextButton(
+                          onPressed: () {
+
+                            Scaffold.of(context).openDrawer();
+                          },
+                          child: Icon(Icons.menu, size: 26, color: Colors.white),
+                        ),
+                      ),
+
+
                       Text("Menu List",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
                               fontWeight: FontWeight.bold)),
-                      TextButton(onPressed: (){}, child: Icon(Icons.search,size: 26,color: Colors.white,)),
+                      TextButton(onPressed: (){
+
+                      }, child: Icon(Icons.search,size: 26,color: Colors.white,)),
+
+
                     ],
                   ),
                 ),
               ),
             ),
+
 
             // Image slider
             Container(
@@ -161,7 +202,6 @@ class _MenuState extends State<Menu> {
                 padding: EdgeInsets.all(13),
                 child:SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,7 +265,332 @@ class _MenuState extends State<Menu> {
                 )
             ),
 
+            Container(
+              child:SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+              child:Row(
 
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                       Container(
+
+                         width: 160,
+                         height: 240,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(34),
+                           color: Colors.orangeAccent,
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.black.withOpacity(0.5),
+                               spreadRadius: 2,
+                               blurRadius: 6,
+                               offset: Offset(0, 2),
+                             )
+                           ]
+                         ),
+                         child:Column(
+                           children: [
+                             ClipRRect(
+                               child: Image.asset("images/img_4.png",width:100,height: 100,),
+                               borderRadius: BorderRadius.circular(80),
+                             ),
+                           Text("Deals Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                             Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                             SizedBox(height: 10,),
+                             Container(
+                               padding:EdgeInsets.all(3),
+                               child:Text("Tap to Order!"),
+                               decoration: BoxDecoration(
+                                 border: Border.all(color: Colors.red, width: 2),
+                                 borderRadius: BorderRadius.circular(34)
+                               ),
+                             ),
+                             SizedBox(height: 10,),
+                             OutlinedButton(onPressed: (){
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Deals()));
+                             }, child: Text("Deals",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                 side: BorderSide(color: Colors.white, width: 2),
+                                 backgroundColor: Colors.orange
+                             ),),
+
+                           ],
+
+                         )
+                       )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Container(
+
+                            width: 160,
+                            height: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(34),
+                                color: Colors.orangeAccent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 2),
+                                  )
+                                ]
+                            ),
+                            child:Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset("images/img_23.png",width:100,height: 100,),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                Text("Wings Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                                Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                                SizedBox(height: 10,),
+                                Container(
+                                  padding:EdgeInsets.all(3),
+                                  child:Text("Tap to Order!"),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(34)
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Wings()));
+                                }, child: Text("Wings",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white, width: 2),
+                                    backgroundColor: Colors.orange
+                                ),),
+
+                              ],
+
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Container(
+
+                            width: 160,
+                            height: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(34),
+                                color: Colors.orangeAccent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 2),
+                                  )
+                                ]
+                            ),
+                            child:Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset("images/img_25.png",width:100,height: 100,),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                Text("Pizza Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                                Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                                SizedBox(height: 10,),
+                                Container(
+                                  padding:EdgeInsets.all(3),
+                                  child:Text("Tap to Order!"),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(34)
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Pizza()));
+                                }, child: Text("Pizza",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white, width: 2),
+                                    backgroundColor: Colors.orange
+                                ),),
+
+                              ],
+
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Container(
+
+                            width: 160,
+                            height: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(34),
+                                color: Colors.orangeAccent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 2),
+                                  )
+                                ]
+                            ),
+                            child:Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset("images/img_24.png",width:100,height: 100,),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                Text("Sweats Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                                Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                                SizedBox(height: 10,),
+                                Container(
+                                  padding:EdgeInsets.all(3),
+                                  child:Text("Tap to Order!"),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(34)
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Sweats()));
+                                }, child: Text("Sweats",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white, width: 2),
+                                    backgroundColor: Colors.orange
+                                ),),
+
+                              ],
+
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Container(
+
+                            width: 160,
+                            height: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(34),
+                                color: Colors.orangeAccent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 2),
+                                  )
+                                ]
+                            ),
+                            child:Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset("images/img_18.png",width:100,height: 100,),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                Text("Burger Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                                Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                                SizedBox(height: 10,),
+                                Container(
+                                  padding:EdgeInsets.all(3),
+                                  child:Text("Tap to Order!"),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(34)
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Burger()));
+                                }, child: Text("Burger",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white, width: 2),
+                                    backgroundColor: Colors.orange
+                                ),),
+
+                              ],
+
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin:EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Container(
+
+                            width: 160,
+                            height: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(34),
+                                color: Colors.orangeAccent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 2),
+                                  )
+                                ]
+                            ),
+                            child:Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset("images/img_20.png",width:100,height: 100,),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                Text("Fries Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
+                                Text("Enjoy offer!",style:TextStyle(color:Colors.yellow, fontSize: 10)),
+                                SizedBox(height: 10,),
+                                Container(
+                                  padding:EdgeInsets.all(3),
+                                  child:Text("Tap to Order!"),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(34)
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Fries()));
+                                }, child: Text("Fries",style: TextStyle(color: Colors.white),),style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white, width: 2),
+                                    backgroundColor: Colors.orange
+                                ),),
+
+                              ],
+
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              )
+              )
+            ),
 
           ],
         ),
@@ -255,12 +620,12 @@ class _Dealstate extends State<Deals> {
       context: context,
       builder: (context) =>
           AlertDialog(
-            title: Text('Added to Cart'),
-            content: Text('Would you like to order more?'),
+            title: Text('Added to Cart',style: TextStyle(color:Colors.orange),),
+            content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Yes'),
+                child: Text('Yes',style: TextStyle(color:Colors.orange)),
               ),
               TextButton(
                 onPressed: () {
@@ -272,7 +637,10 @@ class _Dealstate extends State<Deals> {
                     ),
                   );
                 },
-                child: Text('View Cart'),
+                child: Text('View Cart',style: TextStyle(color:Colors.orange)),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.orange[100],
+                ),
               )
             ],
           ),
@@ -283,15 +651,24 @@ class _Dealstate extends State<Deals> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.orangeAccent[100],
         appBar: AppBar(
           title: Text("Deals List",style: TextStyle(color: Colors.white),),
           backgroundColor: Colors.red,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+            child: Image.asset(
+              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 child: StreamBuilder<QuerySnapshot>(
+
                   stream: FirebaseFirestore.instance.collection('menu').snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -303,6 +680,7 @@ class _Dealstate extends State<Deals> {
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                       return Center(child: Text("No menu items found"));
                     }
+
 
                     return Column(
                       children: snapshot.data!.docs.map((doc) {
@@ -317,7 +695,7 @@ class _Dealstate extends State<Deals> {
                         final List items = data['items'];
 
                         return Container(
-                          margin: EdgeInsets.all(23),
+  margin: EdgeInsets.all(23),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(19),
                             color: Colors.orange[100],
@@ -424,12 +802,12 @@ class _Burgerstate extends State<Burger> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Added to Cart'),
-        content: Text('Would you like to order more?'),
+        title: Text('Added to Cart',style: TextStyle(color:Colors.orange),),
+        content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Yes'),
+            child: Text('Yes',style: TextStyle(color:Colors.orange)),
           ),
           TextButton(
             onPressed: () {
@@ -441,7 +819,11 @@ class _Burgerstate extends State<Burger> {
                 ),
               );
             },
-            child: Text('View Cart'),
+            child: Text('View Cart',style: TextStyle(color:Colors.orange),
+            ),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.orange[100],
+            ),
           )
         ],
       ),
@@ -452,9 +834,18 @@ class _Burgerstate extends State<Burger> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home:Scaffold(
+        backgroundColor: Colors.orangeAccent[100],
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Text("Burger's List",style: TextStyle(color: Colors.white),
+
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+            child: Image.asset(
+              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -577,12 +968,12 @@ class _FriesState extends State<Fries> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Added to Cart'),
-        content: Text('Would you like to order more?'),
+        title: Text('Added to Cart',style: TextStyle(color:Colors.orange)),
+        content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Yes'),
+            child: Text('Yes',style: TextStyle(color:Colors.orange)),
           ),
           TextButton(
             onPressed: () {
@@ -594,7 +985,11 @@ class _FriesState extends State<Fries> {
                 ),
               );
             },
-            child: Text('View Cart'),
+            child: Text('View Cart',style: TextStyle(color:Colors.orange),
+            ),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.orange[100],
+            ),
           )
         ],
       ),
@@ -606,9 +1001,17 @@ class _FriesState extends State<Fries> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.orangeAccent[100],
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Text("Fries List", style: TextStyle(color: Colors.white)),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+            child: Image.asset(
+              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -728,12 +1131,12 @@ class _Wingstate extends State<Wings> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Added to Cart'),
-        content: Text('Would you like to order more?'),
+        title: Text('Added to Cart',style: TextStyle(color:Colors.orange)),
+        content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Yes'),
+            child: Text('Yes',style: TextStyle(color:Colors.orange)),
           ),
           TextButton(
             onPressed: () {
@@ -745,7 +1148,10 @@ class _Wingstate extends State<Wings> {
                 ),
               );
             },
-            child: Text('View Cart'),
+            child: Text('View Cart',style: TextStyle(color:Colors.orange)),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.orange[100],
+            ),
           )
         ],
       ),
@@ -756,9 +1162,17 @@ class _Wingstate extends State<Wings> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home:Scaffold(
+          backgroundColor: Colors.orangeAccent[100],
           appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Text("Wing's List",style: TextStyle(color: Colors.white),
+            ),
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+              child: Image.asset(
+                'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           body: SingleChildScrollView(
@@ -881,12 +1295,12 @@ class _Sweatstate extends State<Sweats> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Added to Cart'),
-        content: Text('Would you like to order more?'),
+        title: Text('Added to Cart',style: TextStyle(color:Colors.orange)),
+        content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Yes'),
+            child: Text('Yes',style: TextStyle(color:Colors.orange)),
           ),
           TextButton(
             onPressed: () {
@@ -898,7 +1312,10 @@ class _Sweatstate extends State<Sweats> {
                 ),
               );
             },
-            child: Text('View Cart'),
+            child: Text('View Cart',style: TextStyle(color:Colors.orange)),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.orange[100],
+            ),
           )
         ],
       ),
@@ -909,9 +1326,18 @@ class _Sweatstate extends State<Sweats> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home:Scaffold(
+          backgroundColor: Colors.orangeAccent[100],
           appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Text("Sweats List",style: TextStyle(color: Colors.white),
+
+            ),
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+              child: Image.asset(
+                'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           body: SingleChildScrollView(
@@ -1038,12 +1464,12 @@ class _PizzaState extends State<Pizza> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Added to Cart'),
-        content: Text('Would you like to order more?'),
+        title: Text('Added to Cart',style: TextStyle(color:Colors.orange)),
+        content: Text('Would you like to order more?',style: TextStyle(color:Colors.orange)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Yes'),
+            child: Text('Yes',style: TextStyle(color:Colors.orange)),
           ),
           TextButton(
             onPressed: () {
@@ -1055,7 +1481,10 @@ class _PizzaState extends State<Pizza> {
                 ),
               );
             },
-            child: Text('View Cart'),
+            child: Text('View Cart',style: TextStyle(color:Colors.orange)),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.orange[100],
+            ),
           )
         ],
       ),
@@ -1067,9 +1496,17 @@ class _PizzaState extends State<Pizza> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.orangeAccent[100],
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Text("Pizza's List", style: TextStyle(color: Colors.white)),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+            child: Image.asset(
+              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -1255,14 +1692,25 @@ class _ViewCartState extends State<ViewCart> {
     double total = cart.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
 
     return Scaffold(
+      backgroundColor: Colors.orangeAccent[100],
       appBar: AppBar(
         backgroundColor: Colors.red[800],
         title: Text('Your Cart', style: TextStyle(color: Colors.white)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+          child: Image.asset(
+            'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
+        Container(
+        child:  Image.asset("images/img_2-removebg-preview.png",width: 200,height: 200,)
+      ),
             ...cart.asMap().entries.map((entry) {
               int index = entry.key;
               Map<String, dynamic> item = entry.value;
@@ -1293,900 +1741,17 @@ class _ViewCartState extends State<ViewCart> {
             SizedBox(height: 16,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,MaterialPageRoute(builder: (context)=>PlaceOrder( cart: cart)));
-            }, child: Text("Place Order",style: TextStyle(color: Colors.white)),style:
+            }, child: Text("Place Order Now",style: TextStyle(color: Colors.white)),style:
               ElevatedButton.styleFrom(backgroundColor: Colors.red),)
           ],
         ),
       ),
+      ),
     );
   }
 }
-/*--------------------------------PLACE ORDERING SCREEN-------------------------------*/
-// class PlaceOrder extends StatefulWidget{
-//   @override
-//   _PlaceorderState createState() => _PlaceorderState();
-// }
-// class _PlaceorderState extends State<PlaceOrder>{
-//   @override
-//   Widget build(BuildContext context){
-//     return MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         home:Scaffold(
-//           appBar: AppBar(
-//             backgroundColor: Colors.red[800],
-//             title: Text("Place Ordering",style: TextStyle(color: Colors.white),
-//             ),
-//           ),
-//           body: SingleChildScrollView(
-//             child: Column(
-//               children: [
-//                 Container(
-//                   child: StreamBuilder<QuerySnapshot>(
-//                     stream: FirebaseFirestore.instance.collection('PlaceOrder').snapshots(),
-//                     builder: (context, snapshot) {
-//                       if (snapshot.connectionState == ConnectionState.waiting) {
-//                         return Center(child: CircularProgressIndicator());
-//                       }
-//                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-//                         return Center(child: Text("No Customer found"));
-//                       }
-//
-//                       return Column(
-//                         children: snapshot.data!.docs.map((doc) {
-//                           final data = doc.data() as Map<String, dynamic>;
-//
-//
-//                           return Container(
-//                             margin: EdgeInsets.all(23),
-//                             decoration: BoxDecoration(
-//                               borderRadius: BorderRadius.circular(19),
-//                               color: Colors.orange[100],
-//                               boxShadow: [
-//                                 BoxShadow(
-//                                   color: Colors.black.withOpacity(0.5),
-//                                   spreadRadius: 2,
-//                                   blurRadius: 6,
-//                                   offset: Offset(0, 3),
-//                                 )
-//                               ],
-//                             ),
-//                             padding: EdgeInsets.all(18),
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Text(data['username'],
-//                                         style: TextStyle(
-//                                             color: Colors.red[500],
-//                                             fontSize: 30,
-//                                             fontWeight: FontWeight.bold)),
-//                                     SizedBox(height: 13),
-//                                     Text(data['email'],
-//                                         style: TextStyle(
-//                                             color: Colors.red[500],
-//                                             fontSize: 30,
-//                                             fontWeight: FontWeight.bold)),
-//                                     SizedBox(height: 13),
-//                                     Text(data['phone'],
-//                                         style: TextStyle(
-//                                             color: Colors.red[500],
-//                                             fontSize: 30,
-//                                             fontWeight: FontWeight.bold)),
-//                                     SizedBox(height: 13),
-//                                     Text(data['name'],
-//                                         style: TextStyle(
-//                                             color: Colors.red[500],
-//                                             fontSize: 30,
-//                                             fontWeight: FontWeight.bold)),
-//                                     SizedBox(height: 13),
-//                                     Text("Total: PKR ${data['total']}/-",
-//                                         style: TextStyle(
-//                                             color: Colors.green,
-//                                             fontWeight: FontWeight.bold)),
-//                                     SizedBox(height: 13),
-//                                     ElevatedButton(
-//                                       onPressed: () {},
-//                                       child: Text("Confirm Order",
-//                                           style:
-//                                           TextStyle(fontWeight: FontWeight.bold)),
-//                                       style: ElevatedButton.styleFrom(
-//                                         backgroundColor: Colors.orange,
-//                                         foregroundColor: Colors.white,
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//
-//                               ],
-//                             ),
-//                           );
-//                         }).toList(),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//                 Container(
-//                   child: ElevatedButton(onPressed: (){
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => Menu()),
-//                     );
-//                   }, child: Text("Go Back"),style:
-//                   ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.deepOrange,
-//                     foregroundColor: Colors.white,
-//                   ),),
-//                 )
-//               ],
-//
-//             ),
-//           ),
-//         )
-//     );
-//   }
-// }
-// class PlaceOrder extends StatefulWidget {
-//   final List<Map<String, dynamic>> cart;
-//
-//   PlaceOrder({required this.cart});
-//
-//   @override
-//   _PlaceorderState createState() => _PlaceorderState();
-// }
-//
-// class _PlaceorderState extends State<PlaceOrder> {
-//   late List<Map<String, dynamic>> cart;
-//   User? currentUser;
-//   bool isLoading = true;
-//   String? username; // Track loading state
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     cart = widget.cart;
-//     _loadUserData();
-//   }
-//
-//   // Method to load the authenticated user data
-//   void _loadUserData() async {
-//     currentUser = FirebaseAuth.instance.currentUser;
-//
-//     if (currentUser != null) {
-//       // Fetch username from Firestore
-//       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection(
-//           'users').doc(currentUser!.uid).get();
-//       setState(() {
-//         username = userDoc['username']; // Store the username
-//         isLoading = false; // Stop loading once the data is fetched
-//       });
-//     } else {
-//       setState(() {
-//         isLoading = false; // Stop loading once the data is fetched
-//       });
-//     }
-//
-//     @override
-//     Widget build(BuildContext context) {
-//       // Show a loading spinner while the user data is loading
-//       if (isLoading) {
-//         return Scaffold(
-//           backgroundColor: Colors.orange,
-//           appBar: AppBar(
-//             backgroundColor: Colors.red[800],
-//             title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//           ),
-//           body: Center(child: CircularProgressIndicator()), // Loading indicator
-//         );
-//       }
-//
-//       double total = cart.fold(
-//           0, (sum, item) => sum + (item['price'] * item['quantity']));
-//
-//       return Scaffold(
-//         appBar: AppBar(
-//           backgroundColor: Colors.red[800],
-//           title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//         ),
-//         body: Padding(
-//           padding: const EdgeInsets.all(12.0),
-//           child: Column(
-//             children: [
-//               // Display current user details only if the user is logged in
-//               if (currentUser != null) ...[
-//                 Text(
-//                   "User: ${username ?? "No Username"}", // Display username
-//                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                 ),
-//                 SizedBox(height: 8),
-//                 Text(
-//                   "Email: ${currentUser!.email ?? "No Email"}",
-//                   style: TextStyle(fontSize: 16),
-//                 ),
-//                 SizedBox(height: 8),
-//               ] else
-//                 ...[
-//                   // If no user is logged in, show a message
-//                   Text(
-//                     "No user is logged in.",
-//                     style: TextStyle(fontSize: 16, color: Colors.red),
-//                   ),
-//                 ],
-//
-//               // Display cart items
-//               ...cart
-//                   .asMap()
-//                   .entries
-//                   .map((entry) {
-//                 int index = entry.key;
-//                 Map<String, dynamic> item = entry.value;
-//
-//                 return ListTile(
-//                   title: Text(item['name']),
-//                   subtitle: Row(
-//                     children: [
-//                       IconButton(
-//                         icon: Icon(Icons.remove, color: Colors.red),
-//                         onPressed: () =>
-//                             setState(() {
-//                               item['quantity'] -= 1;
-//                               if (item['quantity'] < 1) item['quantity'] = 1;
-//                             }),
-//                       ),
-//                       Text("${item['quantity']}"),
-//                       IconButton(
-//                         icon: Icon(Icons.add, color: Colors.green),
-//                         onPressed: () =>
-//                             setState(() {
-//                               item['quantity'] += 1;
-//                             }),
-//                       ),
-//                     ],
-//                   ),
-//                   trailing: Text("PKR ${item['price'] * item['quantity']}"),
-//                 );
-//               }),
-//
-//               Divider(),
-//               Text(
-//                 "Total: PKR $total",
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 16),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   // Handle order placement logic here
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                     content: Text("Order placed successfully!"),
-//                     backgroundColor: Colors.green,
-//                   ));
-//                 },
-//                 child: Text(
-//                     "Confirm Order", style: TextStyle(color: Colors.white)),
-//                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     }
-//
-// }
-// class PlaceOrder extends StatefulWidget {
-//   final List<Map<String, dynamic>> cart;
-//
-//   PlaceOrder({required this.cart});
-//
-//   @override
-//   _PlaceorderState createState() => _PlaceorderState();
-// }
-//
-// class _PlaceorderState extends State<PlaceOrder> {
-//   late List<Map<String, dynamic>> cart;
-//   User? currentUser;
-//   bool isLoading = true;
-//   String? username; // Track loading state
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     cart = widget.cart;
-//     _loadUserData();
-//   }
-//
-//   // Method to load the authenticated user data
-//   void _loadUserData() async {
-//     currentUser = FirebaseAuth.instance.currentUser;
-//
-//     if (currentUser != null) {
-//       // Fetch username from Firestore
-//       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection(
-//           'users').doc(currentUser!.uid).get();
-//       setState(() {
-//         username = userDoc['username']; // Store the username
-//         isLoading = false; // Stop loading once the data is fetched
-//       });
-//     } else {
-//       setState(() {
-//         isLoading = false; // Stop loading once the data is fetched
-//       });
-//     }
-//   }
-//
-//   // Function to show success dialog
-//   void _showSuccessDialog() {
-//     showDialog(
-//       context: context,
-//       barrierDismissible: false, // Prevent dialog dismissal by tapping outside
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//             backgroundColor: Colors.white,
-//             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//             contentPadding: EdgeInsets.all(20),
-//             title: Column(
-//               children: [
-//                 Icon(Icons.check_circle, color: Colors.green, size: 70),
-//                 SizedBox(height: 10),
-//                 Text(
-//                   "Order Placed Successfully!",
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                 ),
-//               ],
-//             ),
-//             content: Text(
-//               "Thank you for your order. Your items will be processed shortly.",
-//               textAlign: TextAlign.center,
-//               style: TextStyle(fontSize: 16),
-//             ),
-//             actions: [
-//             ElevatedButton(
-//             onPressed: () {
-//           Navigator.of(context).pop(); // Close the dialog
-//         },
-//         child: Text("Ok", style: TextStyle(color: Colors.white)),
-//         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//             )
-//         ]
-//         );
-//       },
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // Show a loading spinner while the user data is loading
-//     if (isLoading) {
-//       return Scaffold(
-//         backgroundColor: Colors.orange,
-//         appBar: AppBar(
-//           backgroundColor: Colors.red[800],
-//           title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//         ),
-//         body: Center(child: CircularProgressIndicator()), // Loading indicator
-//       );
-//     }
-//
-//     double total = cart.fold(
-//         0, (sum, item) => sum + (item['price'] * item['quantity']));
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.red[800],
-//         title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(12.0),
-//         child: Column(
-//           children: [
-//             // Display current user details only if the user is logged in
-//             if (currentUser != null) ...[
-//               Text(
-//                 "User: ${username ?? "No Username"}", // Display username
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 8),
-//               Text(
-//                 "Email: ${currentUser!.email ?? "No Email"}",
-//                 style: TextStyle(fontSize: 16),
-//               ),
-//               SizedBox(height: 8),
-//             ] else ...[
-//               // If no user is logged in, show a message
-//               Text(
-//                 "No user is logged in.",
-//                 style: TextStyle(fontSize: 16, color: Colors.red),
-//               ),
-//             ],
-//
-//             // Display cart items
-//             ...cart
-//                 .asMap()
-//                 .entries
-//                 .map((entry) {
-//               int index = entry.key;
-//               Map<String, dynamic> item = entry.value;
-//
-//               return ListTile(
-//                 title: Text(item['name']),
-//                 subtitle: Row(
-//                   children: [
-//                     IconButton(
-//                       icon: Icon(Icons.remove, color: Colors.red),
-//                       onPressed: () =>
-//                           setState(() {
-//                             item['quantity'] -= 1;
-//                             if (item['quantity'] < 1) item['quantity'] = 1;
-//                           }),
-//                     ),
-//                     Text("${item['quantity']}"),
-//                     IconButton(
-//                       icon: Icon(Icons.add, color: Colors.green),
-//                       onPressed: () =>
-//                           setState(() {
-//                             item['quantity'] += 1;
-//                           }),
-//                     ),
-//                   ],
-//                 ),
-//                 trailing: Text("PKR ${item['price'] * item['quantity']}"),
-//               );
-//             }),
-//
-//             Divider(),
-//             Text(
-//               "Total: PKR $total",
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-//             SizedBox(height: 16),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // Handle order placement logic here
-//                 _showSuccessDialog(); // Show success dialog
-//               },
-//               child: Text(
-//                   "Confirm Order", style: TextStyle(color: Colors.white)),
-//               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
- // Add this import
-
-
-
-
-// class PlaceOrder extends StatefulWidget {
-//   final List<Map<String, dynamic>> cart;
-//
-//   PlaceOrder({required this.cart});
-//
-//   @override
-//   _PlaceOrderState createState() => _PlaceOrderState();
-// }
-//
-// class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
-//   late List<Map<String, dynamic>> cart;
-//   User? currentUser;
-//   bool isLoading = true;
-//   String? username;
-//
-//   late AnimationController _sparkleController;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     cart = widget.cart;
-//     _loadUserData();
-//     _sparkleController = AnimationController(
-//       vsync: this,
-//       duration: const Duration(seconds: 2),
-//     )..repeat(reverse: true); // Repeats the sparkle animation
-//   }
-//
-//   void _loadUserData() async {
-//     currentUser = FirebaseAuth.instance.currentUser;
-//
-//     if (currentUser != null) {
-//       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
-//       setState(() {
-//         username = userDoc['username'];
-//         isLoading = false;
-//       });
-//     } else {
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-//
-//   @override
-//   void dispose() {
-//     _sparkleController.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     if (isLoading) {
-//       return Scaffold(
-//         backgroundColor: Colors.orange,
-//         appBar: AppBar(
-//           backgroundColor: Colors.red[800],
-//           title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//         ),
-//         body: Center(child: CircularProgressIndicator()),
-//       );
-//     }
-//
-//     double total = cart.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.red[800],
-//         title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(12.0),
-//         child: Column(
-//           children: [
-//             if (currentUser != null) ...[
-//               Text(
-//                 "User: ${username ?? "No Username"}",
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 8),
-//               Text("Email: ${currentUser!.email ?? "No Email"}", style: TextStyle(fontSize: 16)),
-//               SizedBox(height: 8),
-//             ] else ...[
-//               Text("No user is logged in.", style: TextStyle(fontSize: 16, color: Colors.red)),
-//             ],
-//
-//             ...cart.asMap().entries.map((entry) {
-//               int index = entry.key;
-//               Map<String, dynamic> item = entry.value;
-//
-//               return ListTile(
-//                 title: Text(item['name']),
-//                 subtitle: Row(
-//                   children: [
-//                     IconButton(
-//                       icon: Icon(Icons.remove, color: Colors.red),
-//                       onPressed: () => setState(() {
-//                         item['quantity'] -= 1;
-//                         if (item['quantity'] < 1) item['quantity'] = 1;
-//                       }),
-//                     ),
-//                     Text("${item['quantity']}"),
-//                     IconButton(
-//                       icon: Icon(Icons.add, color: Colors.green),
-//                       onPressed: () => setState(() {
-//                         item['quantity'] += 1;
-//                       }),
-//                     ),
-//                   ],
-//                 ),
-//                 trailing: Text("PKR ${item['price'] * item['quantity']}"),
-//               );
-//             }),
-//
-//             Divider(),
-//             Text("Total: PKR $total", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-//             SizedBox(height: 16),
-//             ElevatedButton(
-//               onPressed: () {
-//                 _showOrderPlacedDialog(context); // Show the success dialog
-//               },
-//               child: Text("Confirm Order", style: TextStyle(color: Colors.white)),
-//               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   // Method to show the Order Placed Success dialog with custom sparkle effect
-//   void _showOrderPlacedDialog(BuildContext context) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//
-//           backgroundColor: Colors.transparent,
-//           child: Stack(
-//
-//             children: [
-//               // Custom sparkle effect
-//               Positioned.fill(
-//                 child: AnimatedBuilder(
-//                   animation: _sparkleController,
-//                   builder: (context, child) {
-//                     return CustomPaint(
-//                       painter: SparklePainter(),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Center(
-//                 child: AlertDialog(
-//                   backgroundColor: Colors.white,
-//                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//                   contentPadding: EdgeInsets.all(20),
-//                   title: Column(
-//                     children: [
-//                       Icon(Icons.check_circle, color: Colors.green, size: 70),
-//                       SizedBox(height: 10),
-//                       Text("Order Placed Successfully!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-//                     ],
-//                   ),
-//                   content: Text("Thank you for your order. Your items will be processed shortly.", textAlign: TextAlign.center, style: TextStyle(fontSize: 16)),
-//                   actions: [
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         Navigator.of(context).pop(); // Close the dialog
-//                       },
-//                       child: Text("Okay", style: TextStyle(color: Colors.white)),
-//                       style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-//
-// class SparklePainter extends CustomPainter {
-//   final Random random = Random();
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final paint = Paint()
-//       ..color = Colors.yellow.withOpacity(0.8)
-//       ..style = PaintingStyle.fill;
-//
-//     for (int i = 0; i < 100; i++) {
-//       double x = random.nextDouble() * size.width;
-//       double y = random.nextDouble() * size.height;
-//       double radius = random.nextDouble() * 3 + 2; // Random radius for sparkles
-//       canvas.drawCircle(Offset(x, y), radius, paint);
-//     }
-//   }
-//
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return true;
-//   }
-// }
-
-
-// class PlaceOrder extends StatefulWidget {
-//   final List<Map<String, dynamic>> cart;
-//
-//   PlaceOrder({required this.cart});
-//
-//   @override
-//   _PlaceOrderState createState() => _PlaceOrderState();
-// }
-//
-// class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
-//   late List<Map<String, dynamic>> cart;
-//   User? currentUser;
-//   bool isLoading = true;
-//   String? username;
-//
-//   late AnimationController _sparkleController;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     cart = widget.cart;
-//     _loadUserData();
-//     _sparkleController = AnimationController(
-//       vsync: this,
-//       duration: const Duration(seconds: 2),
-//     )..repeat(reverse: true); // Repeats the sparkle animation
-//   }
-//
-//   void _loadUserData() async {
-//     currentUser = FirebaseAuth.instance.currentUser;
-//
-//     if (currentUser != null) {
-//       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
-//       setState(() {
-//         username = userDoc['username'];
-//
-//         isLoading = false;
-//       });
-//     } else {
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-//
-//   @override
-//   void dispose() {
-//     _sparkleController.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     if (isLoading) {
-//       return Scaffold(
-//         backgroundColor: Colors.orange,
-//         appBar: AppBar(
-//           backgroundColor: Colors.red[800],
-//           title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//         ),
-//         body: Center(child: CircularProgressIndicator()), // Loading indicator
-//       );
-//     }
-//
-//     double total = cart.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
-//
-//     return Scaffold(
-//       backgroundColor: Colors.orange,
-//       appBar: AppBar(
-//         backgroundColor: Colors.red[800],
-//         title: Text("Place Order", style: TextStyle(color: Colors.white)),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(12.0),
-//         child: Column(
-//           children: [
-//             if (currentUser != null) ...[
-//               Text(
-//                 "User: ${username ?? "No Username"}",
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 8),
-//               Text(
-//                 "Phone Number: ${phone ?? "No phone number"}",
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 8),
-//               Text("Email: ${currentUser!.email ?? "No Email"}", style: TextStyle(fontSize: 16)),
-//               SizedBox(height: 8),
-//             ] else ...[
-//               Text("No user is logged in.", style: TextStyle(fontSize: 16, color: Colors.red)),
-//             ],
-//
-//             // Display cart items
-//             ...cart.map((item) {
-//               return ListTile(
-//                 title: Text(item['name']),
-//                 subtitle: Text("Quantity: ${item['quantity']}"),
-//                 trailing: Text("PKR ${item['price'] * item['quantity']}"),
-//               );
-//             }),
-//
-//             Divider(),
-//             Text("Total: PKR $total", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-//             SizedBox(height: 16),
-//             ElevatedButton(
-//               onPressed: () {
-//                 _saveOrderToFirebase(total); // Save order to Firebase
-//                 _showOrderPlacedDialog(context); // Show the success dialog
-//               },
-//               child: Text("Confirm Order", style: TextStyle(color: Colors.white)),
-//               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   // Method to save the order data to Firebase Firestore
-//   Future<void> _saveOrderToFirebase(double total) async {
-//     if (currentUser != null) {
-//       // Reference to Firestore
-//       CollectionReference orders = FirebaseFirestore.instance.collection('orders');
-//
-//       // Create the order data
-//       Map<String, dynamic> orderData = {
-//         'username': username,
-//         'email': currentUser!.email,
-//         'cart': cart,
-//         'total': total,
-//         'timestamp': FieldValue.serverTimestamp(),
-//       };
-//
-//       // Add order to Firestore
-//       try {
-//         await orders.add(orderData);
-//       } catch (e) {
-//         print("Error saving order: $e");
-//       }
-//     }
-//   }
-//
-//   // Method to show the Order Placed Success dialog with custom sparkle effect
-//   void _showOrderPlacedDialog(BuildContext context) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           backgroundColor: Colors.transparent,
-//           child: Stack(
-//             children: [
-//               // Custom sparkle effect
-//               Positioned.fill(
-//                 child: AnimatedBuilder(
-//                   animation: _sparkleController,
-//                   builder: (context, child) {
-//                     return CustomPaint(
-//                       painter: SparklePainter(),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Center(
-//                 child: AlertDialog(
-//                   backgroundColor: Colors.white,
-//                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//                   contentPadding: EdgeInsets.all(20),
-//                   title: Column(
-//                     children: [
-//                       Icon(Icons.check_circle, color: Colors.green, size: 70),
-//                       SizedBox(height: 10),
-//                       Text("Order Placed Successfully!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-//                     ],
-//                   ),
-//                   content: Text("Thank you for your order. Your items will be processed shortly.", textAlign: TextAlign.center, style: TextStyle(fontSize: 16)),
-//                   actions: [
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         Navigator.of(context).pop(); // Close the dialog
-//                       },
-//                       child: Text("Okay", style: TextStyle(color: Colors.white)),
-//                       style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-//
-// class SparklePainter extends CustomPainter {
-//   final Random random = Random();
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final paint = Paint()
-//       ..color = Colors.yellow.withOpacity(0.8)
-//       ..style = PaintingStyle.fill;
-//
-//     for (int i = 0; i < 100; i++) {
-//       double x = random.nextDouble() * size.width;
-//       double y = random.nextDouble() * size.height;
-//       double radius = random.nextDouble() * 3 + 2; // Random radius for sparkles
-//       canvas.drawCircle(Offset(x, y), radius, paint);
-//     }
-//   }
-//
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return true;
-//   }
-// }
-
+/*---------------------PLACE ORDER SCREEN--------------------*/
 
 class PlaceOrder extends StatefulWidget {
   final List<Map<String, dynamic>> cart;
@@ -2205,7 +1770,10 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
   String? phone; // Store user's phone number
   bool isCashOnDelivery = false; // Payment method selected
   bool isCreditCard = false; // Payment method selected
-
+  String? add;
+  String? cardNumber;
+  String? expiryDate;
+  String? securityCode;
   late AnimationController _sparkleController;
 
   @override
@@ -2219,22 +1787,106 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
     )..repeat(reverse: true); // Repeats the sparkle animation
   }
 
+  //CREDIT CARD FOR PAYMENT METHOD ONLINE
+  Future<void> _showCreditCardDialog() async {
+    TextEditingController cardController = TextEditingController();
+    TextEditingController expiryController = TextEditingController();
+    TextEditingController cvvController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Enter Credit Card Details",style: TextStyle(color: Colors.orange),),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: cardController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Card Number'),
+              ),
+              TextFormField(
+                controller: expiryController,
+                keyboardType: TextInputType.datetime,
+                decoration: InputDecoration(labelText: 'Expiry Date (MM/YY)',),
+              ),
+              TextFormField(
+                controller: cvvController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Security Code (CVV)'),
+                obscureText: true,
+                cursorColor: Colors.orange,
+
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.orange,
+              )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  cardNumber = cardController.text;
+                  expiryDate = expiryController.text;
+                  securityCode = cvvController.text;
+                });
+                Navigator.pop(context);
+              },
+              child: Text("Save"),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.orange,
+                )
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _loadUserData() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get();
+      final addressDoc = await FirebaseFirestore.instance.collection('addresses').doc(currentUser!.uid).get();
+      //
+      // if (addressDoc.exists) {
+      //   add = addressDoc['address'];
+      // } else {
+      //   add = null;
+      // }
+
       setState(() {
         username = userDoc['username'];
-        phone = userDoc['phone']; // Assuming the user's phone number is stored in Firebase
+        phone = userDoc['phone'];
+        add = addressDoc['address'];
+        // // Check if address exists
+        // if (addressDoc.docs.isNotEmpty) {
+        //   add = addressQuery.docs.first['address'];
+        // } else {
+        //   add = null;
+        // }
         isLoading = false;
       });
+
     } else {
       setState(() {
         isLoading = false;
       });
     }
   }
+
+
 
   @override
   void dispose() {
@@ -2246,7 +1898,7 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Scaffold(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.orangeAccent[100],
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Text("Place Order", style: TextStyle(color: Colors.white)),
@@ -2258,12 +1910,19 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
     double total = cart.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
 
     return Scaffold(
-      backgroundColor: Colors.orange,
+      backgroundColor: Colors.orangeAccent[100],
       appBar: AppBar(
         backgroundColor: Colors.red[800],
         title: Text("Place Order", style: TextStyle(color: Colors.white)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
+          child: Image.asset(
+            'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
-      body: Padding(
+      body:SingleChildScrollView(child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2281,6 +1940,8 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
               SizedBox(height: 8),
               Text("Email: ${currentUser!.email ?? "No Email"}", style: TextStyle(fontSize: 16)),
               SizedBox(height: 8),
+              Text("Address: ${add ?? "No Address"}", style: TextStyle(fontSize: 16)),
+
             ] else ...[
               Text("No user is logged in.", style: TextStyle(fontSize: 16, color: Colors.red)),
             ],
@@ -2315,20 +1976,27 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
               ],
             ),
             Row(
+
               children: [
                 Checkbox(
                   value: isCreditCard,
-                  onChanged: (bool? value) {
+                  onChanged: (bool? value) async{
+                    if(value == true){
+                      await _showCreditCardDialog();
                     setState(() {
-                      isCreditCard = value ?? false;
-                      if (isCreditCard) isCashOnDelivery = false; // Uncheck Cash on Delivery if Credit Card is selected
+                        isCreditCard = true;
+                        isCashOnDelivery = false;// Uncheck Cash on Delivery if Credit Card is selected
                     });
-                  },
+                  }else{
+                       isCreditCard=false;
+                    }
+    }
                 ),
                 Text("Credit Card"),
               ],
             ),
             SizedBox(height: 16),
+//Credit Card details of Customer for payment method
 
             // Confirm Order Button
             ElevatedButton(
@@ -2337,10 +2005,21 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
                 _showOrderPlacedDialog(context); // Show the success dialog
               },
               child: Text("Confirm Order", style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green,padding: EdgeInsets.only(left: 45,right: 45)),
+            ),
+            SizedBox(height: 17,),
+            ElevatedButton(
+              onPressed: () {
+               Navigator.push(
+                 context, MaterialPageRoute(builder: (context)=>Menu())
+               );
+              },
+              child: Text("Back to Menu", style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green,padding: EdgeInsets.only(left: 45,right: 45)),
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -2356,9 +2035,15 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
         'username': username,
         'email': currentUser!.email,
         'phone': phone,
+        'address':add,
         'cart': cart,
         'total': total,
         'paymentMethod': isCashOnDelivery ? "Cash on Delivery" : "Credit Card",
+        if (isCreditCard) 'cardInfo': {
+          'cardNumber': cardNumber,
+          'expiryDate': expiryDate,
+          'securityCode': securityCode,
+        },
         'timestamp': FieldValue.serverTimestamp(),
       };
 
@@ -2386,24 +2071,24 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
                   animation: _sparkleController,
                   builder: (context, child) {
                     return CustomPaint(
-                      painter: SparklePainter(),
+                      painter: SparklePainter(animation: _sparkleController),
                     );
                   },
                 ),
               ),
               Center(
                 child: AlertDialog(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[200],
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   contentPadding: EdgeInsets.all(20),
                   title: Column(
                     children: [
                       Icon(Icons.check_circle, color: Colors.green, size: 70),
                       SizedBox(height: 10),
-                      Text("Order Placed Successfully!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text("Order Placed Successfully!", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white)),
                     ],
                   ),
-                  content: Text("Thank you for your order. Your items will be processed shortly.", textAlign: TextAlign.center, style: TextStyle(fontSize: 16)),
+                  content: Text("Thank you for your order. Your items will be processed shortly.", textAlign: TextAlign.center, style: TextStyle(fontSize: 16,color: Colors.white)),
                   actions: [
                     ElevatedButton(
                       onPressed: () {
@@ -2422,21 +2107,37 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
     );
   }
 }
-
 class SparklePainter extends CustomPainter {
   final Random random = Random();
+  final Animation<double> animation;
+
+  SparklePainter({required this.animation}) : super();
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.yellow.withOpacity(0.8)
       ..style = PaintingStyle.fill;
 
+    // Adjust the speed and distribution based on the animation value
     for (int i = 0; i < 100; i++) {
       double x = random.nextDouble() * size.width;
       double y = random.nextDouble() * size.height;
       double radius = random.nextDouble() * 3 + 2; // Random radius for sparkles
-      canvas.drawCircle(Offset(x, y), radius, paint);
+
+      // Simulate the explosion effect
+      double angle = random.nextDouble() * 2 * 3.1416; // Random angle
+      double distance = random.nextDouble() * size.width * animation.value; // Radial explosion effect
+      double dx = x + distance * cos(angle);
+      double dy = y + distance * sin(angle);
+
+      paint.color = Color.fromARGB(
+        (255 * animation.value).toInt(), // Make opacity animate
+        random.nextInt(255),
+        random.nextInt(255),
+        random.nextInt(255),
+      );
+
+      canvas.drawCircle(Offset(dx, dy), radius, paint);
     }
   }
 
@@ -2445,3 +2146,30 @@ class SparklePainter extends CustomPainter {
     return true;
   }
 }
+//
+// class SparklePainter extends CustomPainter {
+//   final Random random = Random();
+//
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     final paint = Paint()
+//       ..color = Colors.yellow.withOpacity(0.8)
+//       ..style = PaintingStyle.fill;
+//
+//     for (int i = 0; i < 100; i++) {
+//       double x = random.nextDouble() * size.width;
+//       double y = random.nextDouble() * size.height;
+//       double radius = random.nextDouble() * 3 + 2; // Random radius for sparkles
+//       canvas.drawCircle(Offset(x, y), radius, paint);
+//     }
+//   }
+//
+//   @override
+//   bool shouldRepaint(CustomPainter oldDelegate) {
+//     return true;
+//   }
+// }
+
+
+
+
