@@ -578,7 +578,7 @@ class _AdminPanelState extends State<AdminPanel> {
                         style: TextStyle(color: Colors.white)),
                     Text("Payment: ${order['paymentMethod']}",
                         style: TextStyle(color: Colors.white)),
-                    Text("Address: ${order['add']}",
+                    Text("Address: ${order['address']}",
                         style: TextStyle(color: Colors.white)),
                     Divider(color: Colors.white),
                     ...cart.map((item) =>
