@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "617980474897",
+    "project_id": "forknkniverestaurant",
+    "storage_bucket": "forknkniverestaurant.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617980474897:android:c8c36bf2d9edfe10b2a3b0",
+        "android_client_info": {
+          "package_name": "com.company.forknknives"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBziHBJ7kX87Ytd2gMaiWLOUcxpE6VD7OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617980474897:android:dd1e2d097800babcb2a3b0",
+        "android_client_info": {
+          "package_name": "com.example.rms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBziHBJ7kX87Ytd2gMaiWLOUcxpE6VD7OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
