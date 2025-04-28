@@ -3,7 +3,7 @@ name: Flutter Android/Web CI
 on:
   push:
       branches:
-        - main
+        - '*'
 
 jobs:
   build:
