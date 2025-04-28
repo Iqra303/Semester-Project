@@ -53,12 +53,12 @@ class _MenuState extends State<Menu> {
   int _currentPage = 0;
 
   final List<String> _images = [
-    'images/img_9.png',
-    'images/img_10.png',
-    'images/img_11.png',
-    'images/img_12.png',
-    'images/img_13.png',
-    'images/img_14.png'
+    'assets/images/img_9.png',
+    'assets/images/img_10.png',
+    'assets/images/img_11.png',
+    'assets/images/img_12.png',
+    'assets/images/img_13.png',
+    'assets/images/img_14.png'
   ];
 
   @override
@@ -93,7 +93,7 @@ class _MenuState extends State<Menu> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(color: Colors.orange),
-              child: Image.asset("images/img_2-removebg-preview.png",width: 130,height: 130,)
+              child: Image.asset("assets/images/img_2-removebg-preview.png",width: 130,height: 130,)
             ),
 
 
@@ -297,7 +297,7 @@ class _MenuState extends State<Menu> {
                          child:Column(
                            children: [
                              ClipRRect(
-                               child: Image.asset("images/img_4.png",width:100,height: 100,),
+                               child: Image.asset("assets/images/img_4.png",width:100,height: 100,),
                                borderRadius: BorderRadius.circular(80),
                              ),
                            Text("Deals Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -349,7 +349,7 @@ class _MenuState extends State<Menu> {
                             child:Column(
                               children: [
                                 ClipRRect(
-                                  child: Image.asset("images/img_23.png",width:100,height: 100,),
+                                  child: Image.asset("assets/images/img_23.png",width:100,height: 100,),
                                   borderRadius: BorderRadius.circular(80),
                                 ),
                                 Text("Wings Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -401,7 +401,7 @@ class _MenuState extends State<Menu> {
                             child:Column(
                               children: [
                                 ClipRRect(
-                                  child: Image.asset("images/img_25.png",width:100,height: 100,),
+                                  child: Image.asset("assets/images/img_25.png",width:100,height: 100,),
                                   borderRadius: BorderRadius.circular(80),
                                 ),
                                 Text("Pizza Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -453,7 +453,7 @@ class _MenuState extends State<Menu> {
                             child:Column(
                               children: [
                                 ClipRRect(
-                                  child: Image.asset("images/img_24.png",width:100,height: 100,),
+                                  child: Image.asset("assets/images/img_24.png",width:100,height: 100,),
                                   borderRadius: BorderRadius.circular(80),
                                 ),
                                 Text("Sweats Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -505,7 +505,7 @@ class _MenuState extends State<Menu> {
                             child:Column(
                               children: [
                                 ClipRRect(
-                                  child: Image.asset("images/img_18.png",width:100,height: 100,),
+                                  child: Image.asset("assets/images/img_18.png",width:100,height: 100,),
                                   borderRadius: BorderRadius.circular(80),
                                 ),
                                 Text("Burger Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -557,7 +557,7 @@ class _MenuState extends State<Menu> {
                             child:Column(
                               children: [
                                 ClipRRect(
-                                  child: Image.asset("images/img_20.png",width:100,height: 100,),
+                                  child: Image.asset("assets/images/img_20.png",width:100,height: 100,),
                                   borderRadius: BorderRadius.circular(80),
                                 ),
                                 Text("Fries Special Offer",style:TextStyle(color:Colors.red, fontSize: 16)),
@@ -658,7 +658,7 @@ class _Dealstate extends State<Deals> {
           leading: Padding(
             padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
             child: Image.asset(
-              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
               fit: BoxFit.contain,
             ),
           ),
@@ -747,7 +747,7 @@ class _Dealstate extends State<Deals> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: Image.asset(
-                                  "images/${data['image']}",
+                                  "assets/images/${data['image']}",
                                   width: 100,
                                   height: 100,
                                 ),
@@ -843,7 +843,7 @@ class _Burgerstate extends State<Burger> {
           leading: Padding(
             padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
             child: Image.asset(
-              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
               fit: BoxFit.contain,
             ),
           ),
@@ -914,7 +914,7 @@ class _Burgerstate extends State<Burger> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: Image.asset(
-                                  "images/${data['image']}",
+                                  "assets/images/${data['image']}",
                                   width: 100,
                                   height: 100,
                                 ),
@@ -1008,7 +1008,7 @@ class _FriesState extends State<Fries> {
           leading: Padding(
             padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
             child: Image.asset(
-              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
               fit: BoxFit.contain,
             ),
           ),
@@ -1078,7 +1078,7 @@ class _FriesState extends State<Fries> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image.asset(
-                                "images/${data['image']}",
+                                "assets/images/${data['image']}",
                                 width: 100,
                                 height: 100,
                               ),
@@ -1170,7 +1170,7 @@ class _Wingstate extends State<Wings> {
             leading: Padding(
               padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
               child: Image.asset(
-                'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+                'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
                 fit: BoxFit.contain,
               ),
             ),
@@ -1241,7 +1241,7 @@ class _Wingstate extends State<Wings> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: Image.asset(
-                                    "images/${data['image']}",
+                                    "assets/images/${data['image']}",
                                     width: 100,
                                     height: 100,
                                   ),
@@ -1335,7 +1335,7 @@ class _Sweatstate extends State<Sweats> {
             leading: Padding(
               padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
               child: Image.asset(
-                'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+                'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
                 fit: BoxFit.contain,
               ),
             ),
@@ -1406,7 +1406,7 @@ class _Sweatstate extends State<Sweats> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: Image.asset(
-                                    "images/${data['image']}",
+                                    "assets/images/${data['image']}",
                                     width: 100,
                                     height: 100,
                                   ),
@@ -1503,7 +1503,7 @@ class _PizzaState extends State<Pizza> {
           leading: Padding(
             padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
             child: Image.asset(
-              'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+              'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
               fit: BoxFit.contain,
             ),
           ),
@@ -1625,7 +1625,7 @@ class _PizzaState extends State<Pizza> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image.asset(
-                                "images/${data['image']}",
+                                "assets/images/${data['image']}",
                                 width: 100,
                                 height: 100,
                                 errorBuilder: (context, error, stackTrace) {
@@ -1699,7 +1699,7 @@ class _ViewCartState extends State<ViewCart> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
           child: Image.asset(
-            'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+            'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
             fit: BoxFit.contain,
           ),
         ),
@@ -1709,7 +1709,7 @@ class _ViewCartState extends State<ViewCart> {
         child: Column(
           children: [
         Container(
-        child:  Image.asset("images/img_2-removebg-preview.png",width: 200,height: 200,)
+        child:  Image.asset("assets/images/img_2-removebg-preview.png",width: 200,height: 200,)
       ),
             ...cart.asMap().entries.map((entry) {
               int index = entry.key;
@@ -1917,7 +1917,7 @@ class _PlaceOrderState extends State<PlaceOrder> with TickerProviderStateMixin {
         leading: Padding(
           padding: const EdgeInsets.all(8.0), // Adjust the padding if needed
           child: Image.asset(
-            'images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
+            'assets/images/img_2-removebg-preview.png', // Make sure your logo is placed in the assets folder
             fit: BoxFit.contain,
           ),
         ),

@@ -124,7 +124,7 @@ class _SignupState extends State<Signup> {
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  Image.asset("images/img_2-removebg-preview.png", width: 200),
+                  Image.asset("assets/images/img_2-removebg-preview.png", width: 200),
                   SizedBox(height: 20),
 
                   TextFormField(
@@ -294,7 +294,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  Image.asset("images/img_2-removebg-preview.png", width: 200),
+                  Image.asset("assets/images/img_2-removebg-preview.png", width: 200),
                   SizedBox(height: 20),
 
                   TextFormField(

@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             FadeTransition(
               opacity: _fadeAnimation,
               child: Image.asset(
-                "images/img_2-removebg-preview.png",
+                "assets/images/img_2-removebg-preview.png",
                 width: 300,
                 height: 300,
               ),
@@ -207,7 +207,7 @@ class _slider extends State<slider> with SingleTickerProviderStateMixin {
                       bottomRight: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      "images/img_4.png",
+                      "assets/images/img_4.png",
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -489,7 +489,7 @@ class _slider2State extends State<slider2> with SingleTickerProviderStateMixin {
                       bottomRight: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      "images/img_5.png",
+                      "assets/images/img_5.png",
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -700,7 +700,7 @@ class _slider3State extends State<slider3> with SingleTickerProviderStateMixin {
                       bottomRight: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      "images/img_6.png",
+                      "assets/images/img_6.png",
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -826,7 +826,7 @@ class _slider4State extends State<slider4> with SingleTickerProviderStateMixin {
                       bottomRight: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      "images/img_7.png",
+                      "assets/images/img_7.png",
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -1037,7 +1037,7 @@ class _Slider5State extends State<Slider5> with SingleTickerProviderStateMixin {
                       bottomRight: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      "images/img_8.png",
+                      "assets/images/img_8.png",
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -1119,7 +1119,7 @@ class Register extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("images/img_2-removebg-preview.png"),
+                        image: AssetImage("assets/images/img_2-removebg-preview.png"),
                         fit: BoxFit.cover,
                       ),
                     ),

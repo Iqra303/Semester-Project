@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 child: Container(
 
                   child: Image.asset(
-                    "images/img_2-removebg-preview.png",
+                    "assets/images/img_2-removebg-preview.png",
                     width: 300,
                     height: 300,
                   ),
@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               SlideTransition(
                 position: _slideAnimation,
                 child: Image.asset(
-                  "images/img_3.png",
+                  "assets/images/img_3.png",
                   width: 100,
                   height: 100,
                 ),
