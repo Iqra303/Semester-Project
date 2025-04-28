@@ -1,5 +1,8 @@
 name: Flutter Android/Web CI
 
+permissions:
+  contents: write
+
 on:
   push:
       tags:
