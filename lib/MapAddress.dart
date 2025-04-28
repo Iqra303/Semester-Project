@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rms/main.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_web/webview_flutter_web.dart';
+// import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'authentication.dart';
 import 'firebase_options.dart';
 import 'menu.dart';
@@ -18,9 +18,9 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,  // This connects the app to Firebase
   );
 
-  if (kIsWeb) {
-    WebViewPlatform.instance = WebWebViewPlatform();
-  }
+  // if (kIsWeb) {
+  //   WebViewPlatform.instance = WebWebViewPlatform();
+  // }
 
   runApp(MaterialApp(debugShowCheckedModeBanner:false ,home: GoogleMapEmbedPage()));
 }
