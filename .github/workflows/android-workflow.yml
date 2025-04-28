@@ -2,7 +2,7 @@ name: Flutter Android/Web CI
 
 on:
   push:
-      branches:
+      tags:
         - '*'
 
 jobs:
